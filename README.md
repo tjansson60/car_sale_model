@@ -1,5 +1,8 @@
 # What does the market think my car is worth?
 
+Original work can be found in the `skoda_fabia`. The `peugeot_5008` is a incomplete example for a friend with a limited
+number of cars.
+
 ## Requirements
 
 Beside all the usual stuff as scikit-learn, pandas, seaborn etc. there are some extra dependencies. Selenium is needed
