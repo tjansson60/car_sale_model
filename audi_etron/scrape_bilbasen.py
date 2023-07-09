@@ -82,6 +82,11 @@ def parse_soup(soup):
         headline = None
         horsepower = None
         region = None
+        listingid = None
+
+        # Listingid
+        # <div class="compare-cars-container" data-listingid="5842200" >
+        listingid = div.find(attrs={"class": "compare-cars-container"}).attrs["data-listingid"].strip().split()[0]
 
         # Price
         price = float(div.find(attrs={"class": "col-xs-3 listing-price"}).text.strip().split()[0].replace(".", ""))
@@ -105,14 +110,14 @@ def parse_soup(soup):
                 if data_string != "-":
                     year = int(data_string.strip())
 
-        results.append((headline, year, odometer, price, horsepower, region))
+        results.append((listingid, headline, year, odometer, price, horsepower, region))
     return results
 
 
 def create_dataframe_from_soup(results, filename):
     # Create the dataframe
     df = pd.DataFrame.from_records(
-        results, columns=["headline", "year", "odometer", "price", "horsepower", "region"]
+        results, columns=["listingid", "headline", "year", "odometer", "price", "horsepower", "region"]
     )
 
     # Car type
@@ -143,8 +148,7 @@ def create_dataframe_from_soup(results, filename):
     df.loc[df["headline"].str.contains("edition"), "trim"] = "edition one"
 
     print(df)
-    print(f"Number of cars: {df.shape[0]}")
-
+    print(f"Number of cars: {df.shape[0]} with duplicates")
     df.drop_duplicates(inplace=True)
     print(f"Number of cars: {df.shape[0]} after deduplication")
 
@@ -157,7 +161,7 @@ if __name__ == "__main__":
     filename_soups = f"{timestamp}-soups.pickle"
     filename_dataframe = f"{timestamp}-dataframe.parquet"
 
-    save_url_soup(url, filename_soups, pages=12)
+    save_url_soup(url, filename_soups, pages=20)
     soups = load_url_soup(filename_soups)
     results = parse_soups(soups)
     create_dataframe_from_soup(results, filename_dataframe)
