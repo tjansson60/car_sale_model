@@ -3,7 +3,13 @@
 Original work can be found in the `skoda_fabia`. The `peugeot_5008` is a incomplete example for a friend with a limited
 number of cars.
 
-## Requirements
+## 2024-08-20 - New requirements
+
+* Using `from webdriver_manager.chrome import ChromeDriverManager` manages everything below. 
+* Bilbasen changed their setup making it more complicated to scrape, but in the `2024-08-volkswagen-golf` example this
+   has been resolved. 
+
+# Old requirements
 
 Beside all the usual stuff as scikit-learn, pandas, seaborn etc. there are some extra dependencies. Selenium is needed
 to scrape the danish car sales website, where I intended to sell my car.
